@@ -14,11 +14,11 @@ int main(){
     //    return 1;
     //}
 
-    char buffer[4096];
-    int slika = read(kamera, buffer, sizeof(buffer));
+    char buffer[4096];      // dodelimo plac za sliko
+    int slika = read(kamera, buffer, sizeof(buffer));       //preberemo kamero
 
     if (slika > 0) {
-        write(file, buffer, slika);
+        write(file, buffer, slika);     // zapišemo sliko
     }
 
     close(kamera);
