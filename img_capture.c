@@ -6,8 +6,8 @@
 
 int main(){
 
-    int fd_r = open("/dev/video0", O_RDONLY);       //odpremo in beremo (readOnly) iz tega naslova
-    int fd_w = open("vhod.raw", O_WRONLY | O_CREAT, 0666);  // write/create file
+    int kamera = open("/dev/video0", O_RDONLY);       //odpremo in beremo (readOnly) iz tega naslova
+    int file = open("vhod.raw", O_WRONLY | O_CREAT, 0666);  // write/create file
 
     //if (fd_r < 0 || fd_w < 0) {
     //    perror("Failed to open file");
@@ -15,14 +15,14 @@ int main(){
     //}
 
     char buffer[4096];
-    int bytes_read = read(fd_r, buffer, sizeof(buffer));
+    int slika = read(kamera, buffer, sizeof(buffer));
 
-    if (bytes_read > 0) {
-        write(fd_w, buffer, bytes_read);
+    if (slika > 0) {
+        write(file, buffer, slika);
     }
 
-    close(fd_r);
-    close(fd_w);
+    close(kamera);
+    close(file);
 
     return 0;
 }
