@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <fcntl.h>
+#include <unistd.h>
 
 // Function to convert a 24 bpp RGB pixel to a 16 bpp RGB565 pixel
 unsigned short rgb24_to_rgb16(unsigned char r, unsigned char g, unsigned char b) {
@@ -7,27 +9,28 @@ unsigned short rgb24_to_rgb16(unsigned char r, unsigned char g, unsigned char b)
 }
 
 int main() {
-    FILE *fin, *fout;
+    int fin, fout;
     unsigned char rgb24[3];
     unsigned short rgb16;
+    ssize_t numRead;
 
-    // Open input and output files
-    fin = fopen("vhod.raw", "rb");
-    fout = fopen("izhod.raw", "wb");
-    if (fin == NULL || fout == NULL) {
+    // Open input and output files with POSIX open
+    fin = open("vhod.raw", O_RDONLY);
+    fout = open("izhod.raw", O_WRONLY | O_CREAT | O_TRUNC, 0666);
+    if (fin == -1 || fout == -1) {
         perror("Error opening file");
         return -1;
     }
 
     // Read 24 bpp image and convert to 16 bpp
-    while (fread(rgb24, 3, 1, fin) == 1) {
+    while ((numRead = read(fin, rgb24, 3)) == 3) {
         rgb16 = rgb24_to_rgb16(rgb24[0], rgb24[1], rgb24[2]);
-        fwrite(&rgb16, 2, 1, fout);
+        write(fout, &rgb16, 2);
     }
 
-    // Close files
-    fclose(fin);
-    fclose(fout);
+    // Close files using POSIX close
+    close(fin);
+    close(fout);
 
     printf("Conversion complete.\n");
     return 0;
