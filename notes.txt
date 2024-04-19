@@ -1,0 +1,2 @@
+fd_r file descriptor read
+0666 -> 0 za oktal number, 1-execute permission, 2-write permission, 4-read permission

@@ -14,7 +14,7 @@ int main() {
         close(read);
         close(write);
         
-  // Delay to sync, adjust as necessary
+        sleep(5);
     }
 
     return 0;
