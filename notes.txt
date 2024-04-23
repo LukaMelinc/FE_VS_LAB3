@@ -1,2 +1,19 @@
 fd_r file descriptor read
 0666 -> 0 za oktal number, 1-execute permission, 2-write permission, 4-read permission
+
+O_TRUNC pomeni, da se obstoječa vsebina datoteke obreže, če datoteka že obstaja
+
+sudo apt update
+sudo apt upgrade
+
+scp program.c pi@raspberrypi.local:/home/pi/
+
+
+cd v mapo, kjer je koda
+
+kompiliranje z gcc
+gcc program.c -o program
+
+
+zagon programa
+./program
