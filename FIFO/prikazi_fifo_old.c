@@ -11,40 +11,33 @@ FILE *write_ptr;
 
 int main( ){
 
-	int fi, fo, d = 1280, v = 1024;
-	int SIZEI = 640*2;
-	int SIZE_SCREEN = d * 2 - 1280;
-	char *buf, *bufO, *bufB;
-	buf = (char *) malloc(sizeof(char) * SIZEI);
-	
-	fi = open("fifo_izhod", O_RDONLY);
-	fo = open("/dev/fb0", O_WRONLY);
-	while(1){
-		for (int i = 0; i < 480; i++) {
-			//buf = (char *)malloc(sizeof(char) * SIZEI);
-			read(fi, buf, SIZEI);
-			
-			//memset(buf, 255, SIZEI);
+int fi, fo, d = 1280, v = 1024;
+int SIZEI = 640*2;
+int SIZE_SCREEN = d * 2 - 1280;
+char *buf, *bufO, *bufB;
+buf = (char *) malloc(sizeof(char) * SIZEI);
 
-			write(fo, buf, SIZEI);
-			lseek(fo,SIZE_SCREEN,SEEK_CUR);
-			//free(buf);
-			//memset(buf,255, SIZEI);
-			//write(fo,buf,SIZEI);
-		
-			if((lseek(fo,0,SEEK_CUR)) >= (d * 2 * 480)){
-				lseek(fo,0,SEEK_SET);
-			}
-			
-			//memset(buf, 255, SIEZI);
-			//write(fo,buf,SIZEI);
-		
-		}
-	}
+fi = open("fifo_izhod", O_RDONLY);
+fo = open("/dev/fb0", O_WRONLY);
+while(1){
+for (int i = 0; i < 480; i++) {
+int bytesRead = read(fi, buf, SIZEI);
+            if (bytesRead != SIZEI) {
+                fprintf(stderr, "Read error: Expected %d bytes, got %d bytes\n", SIZEI, bytesRead);
+                break;
+            }
+            int bytesWritten = write(fo, buf, SIZEI);
+            if (bytesWritten != SIZEI) {
+                fprintf(stderr, "Write error: Expected %d bytes, wrote %d bytes\n", SIZEI, bytesWritten);
+            }
+lseek(fo,2*1280*i,SEEK_SET);
+}
+lseek(fo,0,SEEK_SET);
+}
     
-	close(fi);
-	close(fo);
-	
+close(fi);
+close(fo);
+
         free(buf);
 
         printf("Done!\n");
