@@ -8,11 +8,6 @@ unsigned short rgb24_to_rgb16(unsigned char r, unsigned char g, unsigned char b)
     return ((r >> 3) << 11) | ((g >> 2) << 5) | (b >> 3);
 }
 
-// Function to swap byte order for big-endian system
-unsigned short swap_bytes(unsigned short value) {
-    return (value >> 8) | (value << 8);
-}
-
 int main() {
     int fin, fout;
     unsigned char rgb24[3];
@@ -30,8 +25,6 @@ int main() {
     // Read 24 bpp image and convert to 16 bpp
     while ((numRead = read(fin, rgb24, 3)) == 3) {
         rgb16 = rgb24_to_rgb16(rgb24[0], rgb24[1], rgb24[2]);
-        // Swap bytes for big-endian system
-        rgb16 = swap_bytes(rgb16);
         write(fout, &rgb16, 2);
     }
 
