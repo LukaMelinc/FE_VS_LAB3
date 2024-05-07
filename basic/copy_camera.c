@@ -7,7 +7,7 @@
 
 int main() {
     const char *input_path = "/dev/video0";
-    const char *output_path = "~/VS/vhod.raw";
+    const char *output_path = "vhod.raw";
 
     // Each pixel is 3 bytes in RGB24, resolution is 640x480
     const size_t frame_size = 640 * 480 * 3;
