@@ -61,6 +61,5 @@ int main() {
     close(fo);
     free(buf);
 
-    printf("Done!\n");
     return 0;
 }
